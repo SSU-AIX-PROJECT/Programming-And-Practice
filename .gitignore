@@ -1,0 +1,3 @@
+# remove Cmaker
+CMakeLists.txt
+cmake-build-debug
