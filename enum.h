@@ -6,11 +6,16 @@
 #define PROGRAMINGSOURCE_ENUM_H
 
 
-enum State {
+enum BEHAVE_STATE {
     RUN01,
     RUN02,
     IDLE,
 };
 
+enum CACTUS_STATE {
+    CACTUS_LEFT,
+    CACTUS_RIGHT,
+    CACTUS_ALL,
+};
 
 #endif //PROGRAMINGSOURCE_ENUM_H

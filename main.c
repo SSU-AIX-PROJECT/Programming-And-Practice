@@ -4,15 +4,27 @@
 #include <time.h>
 
 #include "pose.h"
+#include "background.h"
+#include "get.cpp"
+
+#include "enum.h"
+
 #define GROUND_POS 300
+#define END_X 1500
 
 int getKey();
+
 
 int main(void) {
     int x = 100, y = GROUND_POS;
     int state_jump;
     int jump_pos;
     int state_run = 0;
+    struct CACTUS cactus[3] = {
+            {CACTUS_LEFT, END_X / 10},
+            {CACTUS_RIGHT, END_X / 10},
+            {CACTUS_ALL, END_X / 10}
+    };
     HDC hdc = GetWindowDC(GetForegroundWindow());
 
     while (1) {
@@ -23,9 +35,11 @@ int main(void) {
             state_jump = 1;
             jump_pos = 0;
         }
-//        else if (y < GROUND_POS) {
-//            y += 25;
-//        }
+
+        Rectangle(hdc, 400 + 40, 510 - 50, 430 + 30, 420 - 10);
+        Rectangle(hdc, 400 + 30, 510 - 50, 430 + 10, 420 + 30);
+        Rectangle(hdc, 400, 510, 430, 420);
+
         if (state_jump != 0) {
             y = GROUND_POS - 50 * jump_pos;
             jump_pos += state_jump;
@@ -39,7 +53,16 @@ int main(void) {
             y = GROUND_POS;
         }
 
+
+
+        for (int i = 0; i < 3; i++) {
+            draw_cactus(&hdc, &cactus[i]);
+            if (cactus[i].loc < 0) cactus[i].loc = END_X / 10;
+            cactus[i].loc = cactus[i].loc - 5;
+        }
+
         draw_character(&hdc, state_run, x, y);
+
         Sleep(10);
         system("cls");
     }
