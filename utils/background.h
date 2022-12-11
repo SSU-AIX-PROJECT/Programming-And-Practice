@@ -1,7 +1,3 @@
-//
-// Created by dlalsdn on 2022-12-07.
-//
-
 #ifndef PROGRAMINGSOURCE_BACKGROUND_H
 #define PROGRAMINGSOURCE_BACKGROUND_H
 

@@ -1,7 +1,3 @@
-//
-// Created by dlalsdn on 2022-12-11.
-//
-
 #ifndef PROGRAMINGSOURCE_UTILS_H
 #define PROGRAMINGSOURCE_UTILS_H
 

@@ -1,7 +1,3 @@
-//
-// Created by dlalsdn on 2022-12-03.
-//
-
 #ifndef PROGRAMINGSOURCE_POSE_H
 #define PROGRAMINGSOURCE_POSE_H
 
@@ -49,14 +45,14 @@ int LEG_POSE_SET[4][LEG_ROWS][4] = {
         { // RUN02
                 {70, 175, 90, 195},
                 {70, 195, 80, 215},
-                {80, 205, 90, 215},
+                {80,  205, 90,  215},
                 {110, 175, 120, 200},
                 {120, 190, 130, 200},
         },
         { // IDLE
                 {70, 175, 90, 195},
                 {70, 195, 80, 215},
-                {80, 205, 90, 215},
+                {80,  205, 90,  215},
                 {110, 175, 120, 215},
                 {120, 205, 130, 215},
         }
@@ -66,8 +62,9 @@ void draw_character(HDC *hdc, int state, int x, int y) {
     for (int i = 0; i < ROWS; i++) {
         Rectangle(*hdc, x + POSE_SET[i][0], y + POSE_SET[i][1], x + POSE_SET[i][2], y + POSE_SET[i][3]);
     }
-    for (int i = 0; i < LEG_ROWS; i++ ) {
-        Rectangle(*hdc, x + LEG_POSE_SET[state][i][0], y + LEG_POSE_SET[state][i][1], x + LEG_POSE_SET[state][i][2], y + LEG_POSE_SET[state][i][3]);
+    for (int i = 0; i < LEG_ROWS; i++) {
+        Rectangle(*hdc, x + LEG_POSE_SET[state][i][0], y + LEG_POSE_SET[state][i][1], x + LEG_POSE_SET[state][i][2],
+                  y + LEG_POSE_SET[state][i][3]);
     }
 }
 

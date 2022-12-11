@@ -1,7 +1,3 @@
-//
-// Created by dlalsdn on 2022-12-03.
-//
-
 #ifndef PROGRAMINGSOURCE_ENUM_H
 #define PROGRAMINGSOURCE_ENUM_H
 
@@ -27,7 +23,6 @@ enum CACTUS_STATE {
     CACTUS_RIGHT,
     CACTUS_ALL,
 };
-
 // 콘솔 색상
 enum CMD_COLOR {
     BLACK,
@@ -47,4 +42,5 @@ enum CMD_COLOR {
     LIGHT_YELLOW,
     LIGHT_WHITE,
 };
+
 #endif //PROGRAMINGSOURCE_ENUM_H

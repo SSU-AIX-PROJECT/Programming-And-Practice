@@ -1,7 +1,3 @@
-//
-// Created by dlalsdn on 2022-12-11.
-//
-
 #ifndef PROGRAMINGSOURCE_SINGLE_H
 #define PROGRAMINGSOURCE_SINGLE_H
 
@@ -27,12 +23,6 @@ int singleGame(void) {
     int jump_pos = 0;
     int state_run = 0;
     struct CACTUS cactus = {CACTUS_RIGHT, END_X / 10};
-
-//    struct CACTUS cactus[3] = {
-//            {CACTUS_LEFT, END_X / 10},
-//            {CACTUS_RIGHT, END_X / 10},
-//            {CACTUS_ALL, END_X / 10}
-//    };
 
     HDC hdc = GetWindowDC(GetForegroundWindow());
 

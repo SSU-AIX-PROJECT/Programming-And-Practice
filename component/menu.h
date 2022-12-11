@@ -1,7 +1,3 @@
-//
-// Created by dlalsdn on 2022-12-11.
-//
-
 #ifndef PROGRAMINGSOURCE_MENU_H
 #define PROGRAMINGSOURCE_MENU_H
 
