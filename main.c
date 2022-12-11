@@ -16,6 +16,8 @@ void changeCmdColor(int color);
 //void printMenu(const int *currentMenu);
 
 int main() {
+    system("mode con:cols=120 lines=30");
+
     int record;
     int selectedMenu = 0;
     // 한글 깨짐 방지

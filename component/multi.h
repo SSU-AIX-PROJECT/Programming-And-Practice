@@ -15,62 +15,116 @@
 #include "../utils/background.h"
 #include "../utils/enum.h"
 
-#define GROUND_POS 300
+#define GROUND_POS_P1 300
+#define GROUND_POS_P2 900
 #define END_X 1500
 
+void printDescMulti() {
+    printf("\n   키보드 입력 테스트를 진행해주세요");
+    changeCmdColor(LIGHT_BLUE);
+    printf("\n   -> S와 J를 한번씩 눌러주세요");
+    changeCmdColor(WHITE);
+}
+
 int multiGame(void) {
-    int score = 0;
-    int x = 100, y = GROUND_POS;
-    int state_jump = 0;
-    int jump_pos = 0;
-    int state_run = 0;
+    system("mode con:cols=120 lines=100");
+
+    int scoreP1 = 0;
+    int scoreP2 = 0;
+
+    int x = 100;
+    int y_P1 = GROUND_POS_P1;
+    int y_P2 = GROUND_POS_P2;
+
+
+    int state_jump_P1 = 0;
+    int state_jump_P2 = 0;
+
+    int jump_pos_P1 = 0;
+    int jump_pos_P2 = 0;
+
+    int state_run_P1 = 0;
+    int state_run_P2 = 0;
     struct CACTUS cactus = {CACTUS_RIGHT, END_X / 10};
+    HDC hdc = GetWindowDC(GetForegroundWindow());
 
-
-    printf("\n 게임을 시작하기전에 확인해주세요");
-    printf("\n 1. 콘솔창을 아래 밑줄이 보일 때까지 내려주세요");
-    printf("\n 2. 키보드 입력 테스트를 진행해주세요");
-
-    // 115 s 106 j
+    printDescMulti();
     int joinP1 = 0;
     int joinP2 = 0;
 
-    while (1) {
+    int END_P1 = 0;
+    int END_P2 = 0;
 
-        int press = getKey();
+    do {
+        if (joinP1) changeCmdColor(BLUE);
+        printf("\n\n   S키 - PLAYER 1");
+        changeCmdColor(WHITE);
+        if (joinP2) changeCmdColor(BLUE);
+        printf("\n   J키 - PLAYER 2");
+        changeCmdColor(WHITE);
+
+        if (joinP1 && joinP2) break;
+
+        int press = _getch();
         if (press == 115) joinP1 = 1; // S키 눌른 경우 P1 연동 완료
         if (press == 106) joinP2 = 1; // J키 눌른 경우 P2 연동 완료
 
+        system("cls");
+        printDescMulti();
 
-    }
-    return -1;
+    } while (1);
+    Sleep(2500);
 
-    HDC hdc = GetWindowDC(GetForegroundWindow());
 
     while (1) {
-        state_run = 1 - state_run;
 
-        if (getKey() && state_jump == 0) {
-            state_jump = 1;
-            jump_pos = 0;
+        state_run_P1 = 1 - state_run_P1;
+        state_run_P2 = 1 - state_run_P2;
+
+        int pressedKey = getKey();
+        // P1 데이터 수정
+        if (pressedKey == 115 && state_jump_P1 == 0 && END_P1 == 0) {
+            state_jump_P1 = 1;
+            jump_pos_P1 = 0;
+        }
+        // P2 데이터 수정
+        if (pressedKey == 106 && state_jump_P2 == 0 && END_P2 == 0) {
+            state_jump_P2 = 1;
+            jump_pos_P2 = 0;
         }
 
-
-        if (state_jump != 0) {
-            y = GROUND_POS - 50 * jump_pos;
-            jump_pos += state_jump;
-            if (jump_pos == 4 && state_jump == 1) {
-                state_jump = -1;
-                jump_pos = 4;
-            } else if (jump_pos == 0 && state_jump == -1) {
-                state_jump = 0;
+        // P1 점프 상태 관리
+        if (state_jump_P1 != 0) {
+            y_P1 = GROUND_POS_P1 - 50 * jump_pos_P1;
+            jump_pos_P1 += state_jump_P1;
+            if (jump_pos_P1 == 4 && state_jump_P1 == 1) {
+                state_jump_P1 = -1;
+                jump_pos_P1 = 4;
+            } else if (jump_pos_P1 == 0 && state_jump_P1 == -1) {
+                state_jump_P1 = 0;
             }
         } else {
-            y = GROUND_POS;
+            y_P1 = GROUND_POS_P1;
+        }
+        // P2 점프 상태 관리
+        if (state_jump_P2 != 0) {
+            y_P2 = GROUND_POS_P2 - 50 * jump_pos_P2;
+            jump_pos_P2 += state_jump_P2;
+            if (jump_pos_P2 == 4 && state_jump_P2 == 1) {
+                state_jump_P2 = -1;
+                jump_pos_P2 = 4;
+            } else if (jump_pos_P2 == 0 && state_jump_P2 == -1) {
+                state_jump_P2 = 0;
+            }
+        } else {
+            y_P2 = GROUND_POS_P2;
         }
 
         // 선인장 제어
-        draw_cactus(&hdc, &cactus);
+        if (END_P1 == 0) draw_cactus(&hdc, &cactus, 0);;
+        if (END_P2 == 0) draw_cactus(&hdc, &cactus, GROUND_POS_P2 - GROUND_POS_P1);;
+
+
         if (cactus.loc < 0) {
             cactus.loc = END_X / 10;
             cactus.shape = rand()%3;
@@ -78,17 +132,28 @@ int multiGame(void) {
         cactus.loc = cactus.loc - 5;
 
         if (5 <= cactus.loc && cactus.loc <= 25) {
-            if (state_jump == 0) break;
+            if (state_jump_P1 == 0) END_P1 = 1;
         }
+        if (5 <= cactus.loc && cactus.loc <= 25) {
+            if (state_jump_P2 == 0) END_P2 = 1;
+        }
+        if (END_P1 && END_P2) break;
 
+        draw_character(&hdc, state_run_P1, x, y_P1);
+        draw_character(&hdc, state_run_P2, x, y_P2);
 
-        draw_character(&hdc, state_run, x, y);
         Sleep(10);
         system("cls");
-        printf("내 점수 : %10d", score);
-        score += 1;
+        printf("PLAYER 1 점수 : %10d", scoreP1);
+        for (int i = 0; i < 30; i++) printf("\n");
+        printf("PLAYER 2 점수 : %10d", scoreP2);
+
+        if (END_P1 == 0) scoreP1 += 1;
+        if (END_P2 == 0) scoreP2 += 1;
     }
-    return score;
+    system("color 07");
+
+    return scoreP1 >= scoreP2 ? scoreP1 : scoreP2;
 }
 
 #endif //PROGRAMINGSOURCE_MULTI_H

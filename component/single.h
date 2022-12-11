@@ -19,6 +19,8 @@
 #define END_X 1500
 
 int singleGame(void) {
+    system("mode con:cols=120 lines=30");
+
     int score = 0;
     int x = 100, y = GROUND_POS;
     int state_jump = 0;
@@ -57,7 +59,7 @@ int singleGame(void) {
         }
 
         // 선인장 제어
-        draw_cactus(&hdc, &cactus);
+        draw_cactus(&hdc, &cactus, 0);
         if (cactus.loc < 0) {
             cactus.loc = END_X / 10;
             cactus.shape = rand()%3;
